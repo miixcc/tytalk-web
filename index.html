@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本转vsqx（语调）</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
+    />
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.js"></script>
+    <script>
+      uploadText = () => {
+        let text = document.getElementById("textArea").value;
+        console.log("上传" + text);
+        axios({
+          url: "http://47.115.28.10:8080/YuTiaoWeb/responseVSQX",
+          method: "post",
+          data: { text: text },
+        })
+          .then((res) => {
+            if (res.status == 200 && Object.keys(res.data).length !== 0) {
+              let url = window.URL.createObjectURL(new Blob([res.data]), {
+                type: res.headers["content-type"],
+              });
+              let link = document.createElement("a");
+              link.style.display = "none";
+              link.href = url;
+              let date = new Date().toLocaleString();
+              link.setAttribute("download", date + ".vsqx");
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              window.URL.revokeObjectURL(href);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <br />
+    <div class="container">
+      <h1 class="title">
+        文本转vsqx
+      </h1>
+      <div class="subtitle">
+        使用<a href="https://github.com/GalaxieT/TyTalk">这里</a>的代码进行语调
+      </div>
+    </div>
+    <br />
+    <div class="container">
+      <textarea
+        class="textarea is-medium"
+        placeholder="在此处输入文字..."
+        id="textArea"
+      ></textarea>
+    </div>
+    <br />
+    <div class="container">
+      <button class="button" onclick="uploadText()" id="uploadButton">
+        提交
+      </button>
+    </div>
+  </body>
+</html>
