@@ -11,8 +11,9 @@
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.js"></script>
     <script>
       uploadText = () => {
+        document.getElementById("ready-to-download").innerHTML = "";
         let text = document.getElementById("textArea").value;
-        console.log("上传" + text);
+        console.log("正在上传：" + text);
         axios({
           url: "http://47.115.28.10:8080/YuTiaoWeb/responseVSQX",
           method: "post",
@@ -24,14 +25,12 @@
                 type: res.headers["content-type"],
               });
               let link = document.createElement("a");
-              link.style.display = "none";
               link.href = url;
+              link.innerText = "保存";
+              link.classList.add("button");
               let date = new Date().toLocaleString();
               link.setAttribute("download", date + ".vsqx");
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              window.URL.revokeObjectURL(href);
+              document.getElementById("ready-to-download").appendChild(link);
             }
           })
           .catch(function (error) {
@@ -47,7 +46,8 @@
         文本转vsqx
       </h1>
       <div class="subtitle">
-        此项目使用<a href="https://github.com/GalaxieT/TyTalk">这里</a>的代码进行语调
+        此项目使用<a href="https://github.com/GalaxieT/TyTalk">这里</a
+        >的代码进行语调
       </div>
     </div>
     <br />
@@ -60,9 +60,14 @@
     </div>
     <br />
     <div class="container">
-      <button class="button" onclick="uploadText()" id="uploadButton">
-        提交
-      </button>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <button class="button" onclick="uploadText()" id="uploadButton">
+            提交
+          </button>
+        </div>
+        <div class="column is-one-quarter" id="ready-to-download"></div>
+      </div>
     </div>
   </body>
 </html>
