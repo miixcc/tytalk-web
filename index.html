@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>文本转vsqx</title>
     <link
+      href="https://cdn.bootcdn.net/ajax/libs/bulma/0.8.2/css/bulma.css"
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
     />
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.js"></script>
     <script>
@@ -15,7 +15,7 @@
         let text = document.getElementById("textArea").value;
         console.log("正在上传：" + text);
         axios({
-          url: "http://47.115.28.10:8080/YuTiaoWeb/responseVSQX",
+          url: "http://miix.cc/YuTiaoWeb/responseVSQX",
           method: "post",
           data: { text: text },
         })
